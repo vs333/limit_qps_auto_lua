@@ -8,3 +8,7 @@
 -------
     首先通过lua和Tengine结合计算出每秒、每分钟的qps，每分钟同一个url的耗时总数，并且用lua形成一个json格式显示给分析程序，分析程序拿到这个json以后，能够读出每个url请求，这一分钟内的每个请求的平均耗时，根据这个平均耗时读取预制的限流配置（1分钟允许的qps数），写回lua配置这个url的限流。
     Tengine中的lua接受到了这个url的限流配置，根据每个请求每秒的qps与配置限流数/60秒进行对比，如果小于等于就正常转发，如果大于就直接返回一个json数据告诉业务请求，此url目前正处于限流状态。
+
+3、lua代码实现
+-------
+    lua生成的计算都是存储在nginx的lua_shared_dict中，这个大家可以认为是一个内存数据库，类似redis的kv结构。url和time组成key，time、qps都是value。lua_shared_dict的配置是在nginx.conf中，其中limitqps.xxxxxxxx.com.conf是lua数据收集的显示和接收限流配置的域名，其中调用了lua代码。yewu.xxxxxxxx.com.conf是业务域名，其中也调用了lua代码，主要作用是获取url请求的RT，qps数。作为限流和分析的依据。

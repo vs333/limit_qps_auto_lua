@@ -12,3 +12,7 @@
 3、lua代码实现
 -------
     lua生成的计算都是存储在nginx的lua_shared_dict中，这个大家可以认为是一个内存数据库，类似redis的kv结构。url和time组成key，time、qps都是value。lua_shared_dict的配置是在nginx.conf中，其中limitqps.xxxxxxxx.com.conf是lua数据收集的显示和接收限流配置的域名，其中调用了lua代码。yewu.xxxxxxxx.com.conf是业务域名，其中也调用了lua代码，主要作用是获取url请求的RT，qps数。作为限流和分析的依据。
+
+4、分析程序
+-------
+    是否进入限流状态，并且套用配置是什么要通过限流分析程序去实现，我这里同时写了java和python两种语言的限流分析程序，青菜萝卜各有所好。具体可以详见qps_auto_analysis_java、qps_auto_analysis_py这2个仓库。

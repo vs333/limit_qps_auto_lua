@@ -11,7 +11,7 @@
 
 3、lua代码实现
 -------
-    lua生成的计算都是存储在nginx的lua_shared_dict中，这个大家可以认为是一个内存数据库，类似redis的kv结构。url和time组成key，time、qps都是value。lua_shared_dict的配置是在nginx.conf中，其中limitqps.xxxxxxxx.com.conf是lua数据收集的显示和接收限流配置的域名，其中调用了lua代码。yewu.xxxxxxxx.com.conf是业务域名，其中也调用了lua代码，主要作用是获取url请求的RT，qps数。作为限流和分析的依据。
+    lua生成的计算都是存储在nginx的lua_shared_dict中，这个大家可以认为是一个内存数据库，类似redis的kv结构。url和time组成key，time、qps都是value。lua_shared_dict的配置是在nginx.conf中，其中limitqps.xxxxxxxx.com.conf是lua数据收集的显示和接收限流配置的域名，其中调用了lua代码。yewu.xxxxxxxx.com.conf是业务域名，其中也调用了lua代码，主要作用是获取url请求的RT，qps数。作为限流和分析的依据。需要说明的是lua代码里用到了一个三方库cjson。
 
 4、分析程序
 -------
